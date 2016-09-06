@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Donor Puzzle</title>
+    <link rel="icon" href="./images/icon.png">
+    <link rel="stylesheet" type="text/css" href="./css/layout.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.min.css" media="screen"/>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/jquery-ui.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/three.min.js"></script>
+    <script src="./js/puzzle.js"></script>
+    <script src="./ts/flagpuzzle.js"></script>
+    <script src="./ts/tools/quads.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="title">
+                <p>PSYDEH Donor Puzzle</p>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="info">
+                <li>
+                    The donor puzzle is our way of sharing
+                    the the progress of our Crowdfunding campaign
+                    with the donor community. We turned an illustrative
+                    image from the region of the indigenous people in the
+                    Mexican state if Hidalgo into a puzzle with 2500 pieces.
+                    Each piece is worth $10usd. For each $10usd donation a
+                    new puzzle piece will be added to the image. A donation
+                    of $100usd will add 10 pieces. The full image will be visible
+                    once we have reached our goal of $25000usd.<br/>
+                    It is our desire to acknowledge each donor. Move the mouse over the image
+                    to obtain information on the donor of the corresponding piece.
+                </li>
+                <li>[Text pending]</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <div id="grid">
+                <div id="puzzle">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+<div id="tooltip">
+    <div id="visible_piece">
+        <a>This piece has been kindly donated</a><br/>
+        <a>by</a> <a id="name">xxx</a> <a>from</a><a id="location"> xxx</a><a>.</a><br/>
+        <a>The amount donated is</a><a id="amount">xxx</a><a> usd.</a>
+    </div>
+    <div id="empty_piece">
+        <a>Want to invest in this piece of land?u<br/>
+            <a>Simply double click on this spot <br/> to get to our campaign page on
+                GlobalGiving.</a>
+    </div>
+</div>
+</body>
