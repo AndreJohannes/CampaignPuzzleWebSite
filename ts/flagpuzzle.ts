@@ -3,6 +3,7 @@
 /// <reference path="./tools/quads.ts" />
 
 import Vector2 = THREE.Vector2;
+import OrthographicCamera = THREE.OrthographicCamera;
 class Render {
 
     private scene: THREE.Scene;
@@ -16,7 +17,7 @@ class Render {
 
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
+        this.camera = new OrthographicCamera(-768/2, 768/2, 1024/2, -1024/2)//THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
         this.camera.position.z = 1024 / 2;
 
         //let geometry = new THREE.PlaneGeometry(768,1024);//THREE.BoxGeometry( 200, 1024, 200 );
@@ -24,7 +25,12 @@ class Render {
 
         var texture = THREE.ImageUtils.loadTexture("images/destination.png");
         texture.minFilter = THREE.NearestFilter;
-        let material1 = new THREE.MeshBasicMaterial({color: 0xffffff, map: texture, transparent: true, depthWrite: false});
+        let material1 = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            map: texture,
+            transparent: true,
+            depthWrite: false
+        });
         this.quads = new Quads(20, 30, 768, 1024);
         var geometry: THREE.Geometry = this.quads.getGeometry();
         var mesh = new THREE.Mesh(geometry, material1);
@@ -52,7 +58,7 @@ class Render {
     }
 
     public render() {
-        this.rad += 0.2;
+        this.rad += .1;
         for (var j = 0; j < 30; j++) {
             for (var i = 0; i < 20; i++) {
                 var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i + 20 * j)))

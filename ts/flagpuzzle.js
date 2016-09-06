@@ -2,17 +2,23 @@
 /// <reference path="jquery.d.ts" />
 /// <reference path="./tools/quads.ts" />
 var Vector2 = THREE.Vector2;
+var OrthographicCamera = THREE.OrthographicCamera;
 var Render = (function () {
     function Render() {
         this.rad = 0;
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
+        this.camera = new OrthographicCamera(-768 / 2, 768 / 2, 1024 / 2, -1024 / 2); //THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
         this.camera.position.z = 1024 / 2;
         //let geometry = new THREE.PlaneGeometry(768,1024);//THREE.BoxGeometry( 200, 1024, 200 );
         //let material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
         var texture = THREE.ImageUtils.loadTexture("images/destination.png");
         texture.minFilter = THREE.NearestFilter;
-        var material1 = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture, transparent: true, depthWrite: false });
+        var material1 = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            map: texture,
+            transparent: true,
+            depthWrite: false
+        });
         this.quads = new Quads(20, 30, 768, 1024);
         var geometry = this.quads.getGeometry();
         var mesh = new THREE.Mesh(geometry, material1);
@@ -34,7 +40,7 @@ var Render = (function () {
         };
     };
     Render.prototype.render = function () {
-        this.rad += 0.2;
+        this.rad += .1;
         for (var j = 0; j < 30; j++) {
             for (var i = 0; i < 20; i++) {
                 var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i + 20 * j)));
