@@ -1,73 +1,75 @@
-/// <reference path="three.d.ts" />
-/// <reference path="jquery.d.ts" />
-/// <reference path="./tools/quads.ts" />
-var Vector2 = THREE.Vector2;
-var OrthographicCamera = THREE.OrthographicCamera;
-var Render = (function () {
-    function Render() {
-        this.rad = -1;
-        this.dRad = -0.05;
-        this.scene = new THREE.Scene();
-        this.camera = new OrthographicCamera(-768 / 2, 768 / 2, 1024 / 2, -1024 / 2); //THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
-        this.camera.position.z = 1024 / 2;
-        //let geometry = new THREE.PlaneGeometry(768,1024);//THREE.BoxGeometry( 200, 1024, 200 );
-        //let material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
-        var texloader = new THREE.TextureLoader();
-        var texture = texloader.load("images/template_20x30.png");
-        texture.minFilter = THREE.NearestFilter;
-        var material1 = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            map: texture,
-            transparent: true,
-            depthWrite: false
-        });
-        this.quads = new Quads(20, 30, 768, 1024);
-        var geometry = this.quads.getGeometry();
-        var mesh = new THREE.Mesh(geometry, material1);
-        this.scene.add(mesh);
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize(768, 1024);
-        $("#puzzle").append(this.renderer.domElement);
+/// <reference path="tools/jquery.d.ts" />
+/// <reference path="tools/GLRenderer.ts" />
+$(document).ready(function () {
+    var nx = 20, ny = 20;
+    var $tooltip = $("#tooltip");
+    var $puzzle = $("#puzzle");
+    var $grid = $("#grid");
+    var $empty_piece = $("#empty_piece");
+    var $visible_piece = $("#visible_piece");
+    var keys = [];
+    for (var i = 0; i < 40; i++) {
+        keys[i] = [];
     }
-    Render.prototype.animate = function () {
-        Render._animate(this)();
-    };
-    Render._animate = function (render) {
-        return function () {
-            requestAnimationFrame(Render._animate(render));
-            render.render();
-        };
-    };
-    Render.prototype.render = function () {
-        var rad = Math.min(Math.max(0, this.rad + this.dRad), Math.PI + 0.2 * 20);
-        if (rad != this.rad) {
-            this.rad = rad;
-            for (var j = 0; j < 30; j++) {
-                for (var i = 0; i < 20; i++) {
-                    var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i)));
-                    this.quads.flip(rad, i, j);
-                }
-            }
+    var index = 200;
+    $.getJSON("./json/keys.json", function (data) {
+        for (var i in data) {
+            keys[data[i][0]][data[i][1]] = parseInt(i) + 1;
         }
-        this.renderer.render(this.scene, this.camera);
-    };
-    Render.prototype.setRad = function (value) {
-        this.dRad = value;
-    };
-    return Render;
-}());
-window.onload = function () {
-    var renderer = new Render();
-    renderer.animate();
-    $('#checkbox').change(function () {
-        console.log($(this).is(':checked'));
-        if ($(this).is(':checked')) {
-            renderer.setRad(0.05);
+    });
+    $puzzle.mousemove(function (e) {
+        var x = e.pageX - this.offsetLeft;
+        var y = e.pageY - this.offsetTop;
+        var posX = Math.floor(nx * x / 768);
+        var posY = Math.floor(ny * y / 1024);
+        $tooltip.css("top", e.pageY + 20);
+        $tooltip.css("left", e.pageX + 10);
+        var p_index = keys[posX][posY];
+        if (p_index > index) {
+            $visible_piece.hide();
+            $empty_piece.show();
         }
         else {
-            renderer.setRad(-0.05);
+            $empty_piece.hide();
+            $visible_piece.show();
         }
-    }).attr("checked", "");
-    //renderer.render();
-};
+        $puzzle.attr("tooltip", text);
+    });
+    $puzzle.mouseenter(function (e) {
+        //$grid.show();
+        $tooltip.show();
+    });
+    $puzzle.mouseleave(function (e) {
+        //$grid.hide();
+        $tooltip.hide();
+    });
+    $puzzle.dblclick(function (e) {
+        window.location.href = "https://www.globalgiving.org/projects/empower-native-women-mexico/";
+    });
+    //});
+    //window.onload = function () {
+    if (GLRenderer.webgl_support()) {
+        var renderer_1 = new GLRenderer();
+        $("#puzzle").append(renderer_1.getDom());
+        renderer_1.animate();
+        $('#checkbox').change(function () {
+            if ($(this).is(':checked')) {
+                renderer_1.setRad(0.05);
+            }
+            else {
+                renderer_1.setRad(-0.05);
+            }
+        }).attr("checked", "");
+    }
+    else {
+        $('#checkbox').change(function () {
+            if ($(this).is(':checked')) {
+                $("#puzzle").css("background-image", "url(./images/puzzle_back.png)");
+            }
+            else {
+                $("#puzzle").css("background-image", "url(./images/puzzle.png)");
+            }
+        }).attr("checked", "");
+    }
+});
 //# sourceMappingURL=flagpuzzle.js.map

@@ -1,4 +1,4 @@
-/// <reference path="../three.d.ts" />
+/// <reference path="./three.d.ts" />
 
 class Quads {
 

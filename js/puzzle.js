@@ -18,8 +18,7 @@ $(document).ready(function () {
             keys[data[i][0]][data[i][1]] = parseInt(i) + 1;
         }
     });
-    //$grid.hide();
-    //$puzzle.css("background-image","url(images/frames/frame"+index+".png)")
+
     $puzzle.mousemove(function (e) {
         var x = e.pageX - this.offsetLeft;
         var y = e.pageY - this.offsetTop;

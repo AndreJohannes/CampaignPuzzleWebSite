@@ -1,4 +1,4 @@
-/// <reference path="../three.d.ts" />
+/// <reference path="./three.d.ts" />
 var Quads = (function () {
     function Quads(nx, ny, res_x, res_y) {
         this.nx = nx;

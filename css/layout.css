@@ -34,6 +34,7 @@
 #puzzle {
     background-image: url(../images/puzzle.png);
     height: 1024px;
+    width: 768px;
     background-size: 100%;
     background-repeat: no-repeat;
 }
@@ -41,6 +42,7 @@
 #grid{
     background-image: url(../images/grid.png);
     height: 1024px;
+    width: 768px;
     background-size: 100%;
     background-repeat: no-repeat;
 }
