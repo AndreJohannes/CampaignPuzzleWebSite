@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Donor Puzzle</title>
     <link rel="icon" href="./images/icon.png">
-    <link rel="stylesheet" type="text/css" href="./css/layout.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.min.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="./css/layout.css" media="screen"/>
     <script src="./js/jquery.js"></script>
     <script src="./js/jquery-ui.js"></script>
     <script src="./js/bootstrap.min.js"></script>
@@ -30,6 +30,10 @@
 
     <div class="row">
         <div class="col-md-3">
+                <fieldset>
+                    <input type="checkbox" name="checkbox" id="checkbox">
+                    <label for="checkbox" id="cb_label">Flip puzzle pieces </label>
+                </fieldset>
             <ul class="info">
                 <li>
                     The donor puzzle is our way of sharing
@@ -57,14 +61,14 @@
     </div>
 </div>
 
-<div id="tooltip">
+<div id="tooltip" style="display:none">
     <div id="visible_piece">
         <a>This piece has been kindly donated</a><br/>
         <a>by</a> <a id="name">xxx</a> <a>from</a><a id="location"> xxx</a><a>.</a><br/>
         <a>The amount donated is</a><a id="amount">xxx</a><a> usd.</a>
     </div>
     <div id="empty_piece">
-        <a>Want to invest in this piece of land?u<br/>
+        <a>Want to invest in this piece of land?<br/>
             <a>Simply double click on this spot <br/> to get to our campaign page on
                 GlobalGiving.</a>
     </div>

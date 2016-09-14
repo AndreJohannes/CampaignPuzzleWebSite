@@ -5,13 +5,15 @@ var Vector2 = THREE.Vector2;
 var OrthographicCamera = THREE.OrthographicCamera;
 var Render = (function () {
     function Render() {
-        this.rad = 0;
+        this.rad = -1;
+        this.dRad = -0.05;
         this.scene = new THREE.Scene();
         this.camera = new OrthographicCamera(-768 / 2, 768 / 2, 1024 / 2, -1024 / 2); //THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
         this.camera.position.z = 1024 / 2;
         //let geometry = new THREE.PlaneGeometry(768,1024);//THREE.BoxGeometry( 200, 1024, 200 );
         //let material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
-        var texture = THREE.ImageUtils.loadTexture("images/destination.png");
+        var texloader = new THREE.TextureLoader();
+        var texture = texloader.load("images/template_20x30.png");
         texture.minFilter = THREE.NearestFilter;
         var material1 = new THREE.MeshBasicMaterial({
             color: 0xffffff,
@@ -28,33 +30,44 @@ var Render = (function () {
         $("#puzzle").append(this.renderer.domElement);
     }
     Render.prototype.animate = function () {
-        //this.stats.begin();
         Render._animate(this)();
     };
     Render._animate = function (render) {
         return function () {
             requestAnimationFrame(Render._animate(render));
-            //render.controls.update();
-            //render.stats.update();
             render.render();
         };
     };
     Render.prototype.render = function () {
-        this.rad += .1;
-        for (var j = 0; j < 30; j++) {
-            for (var i = 0; i < 20; i++) {
-                var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i + 20 * j)));
-                this.quads.flip(rad, i, j);
+        var rad = Math.min(Math.max(0, this.rad + this.dRad), Math.PI + 0.2 * 20);
+        if (rad != this.rad) {
+            this.rad = rad;
+            for (var j = 0; j < 30; j++) {
+                for (var i = 0; i < 20; i++) {
+                    var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i)));
+                    this.quads.flip(rad, i, j);
+                }
             }
         }
         this.renderer.render(this.scene, this.camera);
+    };
+    Render.prototype.setRad = function (value) {
+        this.dRad = value;
     };
     return Render;
 }());
 window.onload = function () {
     var renderer = new Render();
     renderer.animate();
+    $('#checkbox').change(function () {
+        console.log($(this).is(':checked'));
+        if ($(this).is(':checked')) {
+            renderer.setRad(0.05);
+        }
+        else {
+            renderer.setRad(-0.05);
+        }
+    }).attr("checked", "");
     //renderer.render();
-    window.render = renderer;
 };
 //# sourceMappingURL=flagpuzzle.js.map
