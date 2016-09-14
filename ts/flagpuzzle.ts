@@ -38,7 +38,7 @@ $(document).ready(function () {
             $empty_piece.hide();
             $visible_piece.show();
         }
-        $puzzle.attr("tooltip", text);
+        //$puzzle.attr("tooltip", text);
     });
     $puzzle.mouseenter(function (e) {
         //$grid.show();
@@ -50,12 +50,8 @@ $(document).ready(function () {
     });
     $puzzle.dblclick(function (e) {
         window.location.href = "https://www.globalgiving.org/projects/empower-native-women-mexico/";
-    })
+    });
 
-//});
-
-
-//window.onload = function () {
 
     if (GLRenderer.webgl_support()) {
         let renderer = new GLRenderer();
