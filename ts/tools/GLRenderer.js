@@ -5,7 +5,6 @@ var GLRenderer = (function () {
         this.rad = 0.0;
         this.dRad = -0.05;
         this.state = false;
-        this.init_counter = 50;
         var that = this;
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(-768 / 2, 768 / 2, 1024 / 2, -1024 / 2); //THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
@@ -30,6 +29,7 @@ var GLRenderer = (function () {
         this.renderer = new THREE.WebGLRenderer({ alpha: false });
         //this.renderer.setClearColor(0xffffff, 0)
         this.renderer.setSize(768, 1024);
+        GLRenderer.heartbeat(this)();
     }
     GLRenderer.prototype.getDom = function () {
         return this.renderer.domElement;
@@ -46,14 +46,11 @@ var GLRenderer = (function () {
             render.render();
         };
     };
-    GLRenderer.initiate = function (renderer) {
+    GLRenderer.heartbeat = function (renderer) {
         return function () {
-            if (renderer.init_counter >= 0)
-                requestAnimationFrame(GLRenderer.initiate(renderer));
+            setTimeout(GLRenderer.heartbeat(renderer), 2000);
             if (renderer.renderer != null) {
                 renderer.renderer.render(renderer.scene, renderer.camera);
-                console.log(renderer.init_counter);
-                renderer.init_counter -= 1;
             }
         };
     };

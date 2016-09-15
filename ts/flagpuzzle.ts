@@ -64,7 +64,6 @@ $(document).ready(function () {
         let renderer = new GLRenderer();
         $("#puzzle").css("background-color","#ffffff");
         $("#puzzle").append(renderer.getDom());
-        GLRenderer.initiate(renderer)();
         renderer.animate();
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {

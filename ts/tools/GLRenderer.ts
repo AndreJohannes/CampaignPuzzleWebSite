@@ -43,6 +43,8 @@ class GLRenderer {
         //this.renderer.setClearColor(0xffffff, 0)
         this.renderer.setSize(768, 1024);
 
+        GLRenderer.heartbeat(this)();
+
     }
 
     public getDom() {
@@ -64,16 +66,12 @@ class GLRenderer {
         }
     }
 
-    private init_counter = 50;
 
-    public static initiate(renderer: GLRenderer) {
+    private static heartbeat(renderer: GLRenderer) {
         return function () {
-            if (renderer.init_counter >= 0)
-                requestAnimationFrame(GLRenderer.initiate(renderer));
+            setTimeout(GLRenderer.heartbeat(renderer), 2000);
             if (renderer.renderer != null) {
                 renderer.renderer.render(renderer.scene, renderer.camera);
-                console.log(renderer.init_counter);
-                renderer.init_counter -= 1;
             }
         }
     }
