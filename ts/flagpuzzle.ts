@@ -11,6 +11,7 @@ $(document).ready(function () {
     var $grid = $("#grid");
     var $empty_piece = $("#empty_piece");
     var $visible_piece = $("#visible_piece");
+    var $accordion = $("#accordion");
 
     var keys = [];
     for (var i = 0; i < 40; i++) {
@@ -22,6 +23,12 @@ $(document).ready(function () {
             keys[data[i][0]][data[i][1]] = parseInt(i) + 1;
         }
     });
+
+    $accordion.accordion({
+        collapsible: true
+    });
+
+    $("input").checkboxradio();
 
     $puzzle.mousemove(function (e) {
         var x = e.pageX - this.offsetLeft;
@@ -55,7 +62,9 @@ $(document).ready(function () {
 
     if (GLRenderer.webgl_support()) {
         let renderer = new GLRenderer();
+        $("#puzzle").css("background-color","#ffffff");
         $("#puzzle").append(renderer.getDom());
+        GLRenderer.initiate(renderer)();
         renderer.animate();
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {

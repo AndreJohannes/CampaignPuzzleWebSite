@@ -33,28 +33,46 @@
 
 #puzzle {
     background-image: url(../images/puzzle.png);
-    height: 1024px;
-    width: 768px;
+    width: 100%;
     background-size: 100%;
     background-repeat: no-repeat;
 }
 
 #grid{
     background-image: url(../images/grid.png);
-    height: 1024px;
-    width: 768px;
+    height: 100%;
     background-size: 100%;
     background-repeat: no-repeat;
 }
 
-#cb_label{
-    font-size: 20px;
-    vertical-align: middle;
-    margin-bottom: 0px;
-}
-
 #checkbox{
     vertical-align: middle;
+}
+
+#accordion h3{
+    font-size: 20px;
+}
+
+#accordion div{
+    font-size: 17px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#accordion a{
+ color: blue;
+}
+
+
+
+#logo{
+    background-image: url(../images/logo.png);
+    height: 80px;
+    width: 173px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    float: right;
+    margin-top: 15px;
 }
 
 .info{
@@ -63,5 +81,12 @@
 }
 fieldset{
     margin-top: 10px;
-    margin-left: 15px;
+    margin-left: 0px;
+}
+
+#cb_label{
+    width: 100%;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-bottom: 0px;
 }

@@ -2,17 +2,20 @@
 /// <reference path="./quads.ts" />
 var GLRenderer = (function () {
     function GLRenderer() {
-        //console.log("WebGL support: " + Render.webglAvailable());
-        this.rad = -1;
+        this.rad = 0.0;
         this.dRad = -0.05;
         this.state = false;
+        this.init_counter = 50;
+        var that = this;
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(-768 / 2, 768 / 2, 1024 / 2, -1024 / 2); //THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
         this.camera.position.z = 1024 / 2;
-        //let geometry = new THREE.PlaneGeometry(768,1024);//THREE.BoxGeometry( 200, 1024, 200 );
-        //let material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
+        //var  geometry:THREE.Geometry = new THREE.PlaneGeometry(768,1024);//THREE.BoxGeometry( 200, 1024, 200 );
+        //var  material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF });
+        //var mesh = new THREE.Mesh(geometry, material);
+        //this.scene.add(mesh);
         var texloader = new THREE.TextureLoader();
-        var texture = texloader.load("images/template_20x30.png");
+        var texture = texloader.load("images/template.png");
         texture.minFilter = THREE.NearestFilter;
         var material1 = new THREE.MeshBasicMaterial({
             color: 0xffffff,
@@ -24,7 +27,8 @@ var GLRenderer = (function () {
         var geometry = this.quads.getGeometry();
         var mesh = new THREE.Mesh(geometry, material1);
         this.scene.add(mesh);
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({ alpha: false });
+        //this.renderer.setClearColor(0xffffff, 0)
         this.renderer.setSize(768, 1024);
     }
     GLRenderer.prototype.getDom = function () {
@@ -42,6 +46,17 @@ var GLRenderer = (function () {
             render.render();
         };
     };
+    GLRenderer.initiate = function (renderer) {
+        return function () {
+            if (renderer.init_counter >= 0)
+                requestAnimationFrame(GLRenderer.initiate(renderer));
+            if (renderer.renderer != null) {
+                renderer.renderer.render(renderer.scene, renderer.camera);
+                console.log(renderer.init_counter);
+                renderer.init_counter -= 1;
+            }
+        };
+    };
     GLRenderer.prototype.render = function () {
         var rad = Math.min(Math.max(0, this.rad + this.dRad), Math.PI + 0.2 * 20);
         if (rad != this.rad) {
@@ -52,8 +67,8 @@ var GLRenderer = (function () {
                     this.quads.flip(rad, i, j);
                 }
             }
+            this.renderer.render(this.scene, this.camera);
         }
-        this.renderer.render(this.scene, this.camera);
     };
     GLRenderer.webgl_support = function () {
         var retValue = false;
