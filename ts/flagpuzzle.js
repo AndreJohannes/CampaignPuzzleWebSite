@@ -1,7 +1,7 @@
 /// <reference path="tools/jquery.d.ts" />
 /// <reference path="tools/GLRenderer.ts" />
 $(document).ready(function () {
-    var nx = 20, ny = 20;
+    var nx = 30, ny = 40;
     var $tooltip = $("#tooltip");
     var $puzzle = $("#puzzle");
     var $grid = $("#grid");
@@ -54,9 +54,12 @@ $(document).ready(function () {
     });
     if (GLRenderer.webgl_support()) {
         var renderer_1 = new GLRenderer();
-        $("#puzzle").css("background-color", "#ffffff");
-        $("#puzzle").append(renderer_1.getDom());
+        $puzzle.css("background-color", "#ffffff");
+        var $canvas = $(renderer_1.getDom());
+        $puzzle.append($canvas);
         renderer_1.animate();
+        renderer_1.resize($puzzle.width(), $puzzle.width() * 915 / 733);
+        window.addEventListener('resize', function () { renderer_1.resize($puzzle.width(), $puzzle.width() * 915 / 733); }, false);
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
                 renderer_1.setRad(0.05);

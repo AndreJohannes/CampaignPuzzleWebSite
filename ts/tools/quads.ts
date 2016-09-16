@@ -23,7 +23,7 @@ class Quads {
     public flip(rad: number, i: number, j: number) {
         let x_center = this.res_x * (i / this.nx - 1 / 2) + this.dx / 2;
 
-        let index = i * (this.ny + 1) + j;
+        let index = i * (this.ny) + j;
 
         let cos = Math.cos(rad);
         let sin = Math.sin(rad);
@@ -50,10 +50,10 @@ class Quads {
         let geometry = new THREE.Geometry();
         var offset = 0;
 
-        for (var i = 0; i < 1; i += 1 / this.nx) {
-            for (var j = 0; j < 1; j += 1 / this.ny) {
-                let x = -this.res_x / 2 + this.res_x * i;
-                let y = -this.res_y / 2 + this.res_y * j;
+        for (var i = 0; i < this.nx; i++) {
+            for (var j = 0; j < this.ny; j++) {
+                let x = -this.res_x / 2 + this.res_x * i / this.nx;
+                let y = -this.res_y / 2 + this.res_y * j / this.ny;
                 geometry.vertices.push(new THREE.Vector3(x - this.dx / 2, y - this.dy / 2, 0));
                 geometry.vertices.push(new THREE.Vector3(x + 3 * this.dx / 2, y - this.dy / 2, 0));
                 geometry.vertices.push(new THREE.Vector3(x - this.dx / 2, y + 3 * this.dy / 2, 0));
@@ -62,18 +62,18 @@ class Quads {
                 geometry.faces.push(new THREE.Face3(offset + 3, offset + 2, offset + 1));
                 geometry.faces.push(new THREE.Face3(offset + 2, offset + 1, offset + 0));
                 geometry.faces.push(new THREE.Face3(offset + 1, offset + 2, offset + 3));
-                geometry.faceVertexUvs[0].push([new THREE.Vector2(i / 2, j),
-                    new THREE.Vector2((i + 1 / this.nx) / 2, j),
-                    new THREE.Vector2(i / 2, j + 1 / this.ny)]);
-                geometry.faceVertexUvs[0].push([new THREE.Vector2((i + 1 / this.nx) / 2, j + 1 / this.ny),
-                    new THREE.Vector2(i / 2, j + 1 / this.ny),
-                    new THREE.Vector2((i + 1 / this.nx) / 2, j)]);
-                geometry.faceVertexUvs[0].push([new THREE.Vector2(0.5 + (i + 1 / this.nx) / 2, j + 1 / this.ny),
-                    new THREE.Vector2(0.5 + i / 2, j),
-                    new THREE.Vector2(0.5 + (i + 1 / this.nx) / 2, j)]);
-                geometry.faceVertexUvs[0].push([new THREE.Vector2(0.5 + i / 2, j),
-                    new THREE.Vector2(0.5 + (i + 1 / this.nx) / 2, j + 1 / this.ny),
-                    new THREE.Vector2(0.5 + i / 2, j + 1 / this.ny)]);
+                geometry.faceVertexUvs[0].push([new THREE.Vector2(i / (2 * this.nx), j / this.ny),
+                    new THREE.Vector2(((i + 1) / this.nx) / 2, j / this.ny),
+                    new THREE.Vector2(i / (2 * this.nx), (j + 1) / this.ny)]);
+                geometry.faceVertexUvs[0].push([new THREE.Vector2(((i + 1) / this.nx) / 2, (j + 1) / this.ny),
+                    new THREE.Vector2(i / (2 * this.nx), (j + 1) / this.ny),
+                    new THREE.Vector2(((i + 1) / this.nx) / 2, j / this.ny)]);
+                geometry.faceVertexUvs[0].push([new THREE.Vector2(0.5 + ((i + 1) / this.nx) / 2, (j + 1) / this.ny),
+                    new THREE.Vector2(0.5 + i / (2 * this.nx), j / this.ny),
+                    new THREE.Vector2(0.5 + ((i + 1) / this.nx) / 2, j / this.ny)]);
+                geometry.faceVertexUvs[0].push([new THREE.Vector2(0.5 + i / (2 * this.nx), j / this.ny),
+                    new THREE.Vector2(0.5 + ((i + 1) / this.nx) / 2, (j + 1) / this.ny),
+                    new THREE.Vector2(0.5 + i / (2 * this.nx), (j + 1) / this.ny)]);
                 offset += 4;
             }
         }

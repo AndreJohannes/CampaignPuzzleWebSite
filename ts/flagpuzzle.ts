@@ -4,7 +4,7 @@
 
 $(document).ready(function () {
 
-    var nx = 20, ny = 20;
+    var nx = 30, ny = 40;
 
     var $tooltip = $("#tooltip");
     var $puzzle = $("#puzzle");
@@ -63,9 +63,12 @@ $(document).ready(function () {
 
     if (GLRenderer.webgl_support()) {
         let renderer = new GLRenderer();
-        $("#puzzle").css("background-color","#ffffff");
-        $("#puzzle").append(renderer.getDom());
+        $puzzle.css("background-color","#ffffff");
+        var $canvas = $(renderer.getDom());
+        $puzzle.append($canvas);
         renderer.animate();
+        renderer.resize($puzzle.width(), $puzzle.width()*915/733);
+        window.addEventListener('resize', function(){renderer.resize($puzzle.width(), $puzzle.width()*915/733)}, false );
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
                 renderer.setRad(0.05);
