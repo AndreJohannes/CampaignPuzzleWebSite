@@ -4,18 +4,19 @@ $(document).ready(function () {
     var nx = 30, ny = 40;
     var $tooltip = $("#tooltip");
     var $puzzle = $("#puzzle");
-    var $grid = $("#grid");
     var $empty_piece = $("#empty_piece");
     var $visible_piece = $("#visible_piece");
     var $accordion = $("#accordion");
+    var $name = $("#name");
+    var $location = $("#location");
     var keys = [];
     for (var i = 0; i < 40; i++) {
         keys[i] = [];
     }
-    var index = 200;
-    $.getJSON("./json/keys.json", function (data) {
+    var donors;
+    $.getJSON("./json/donors.json", function (data) {
         for (var i in data) {
-            keys[data[i][0]][data[i][1]] = parseInt(i) + 1;
+            donors = data;
         }
     });
     $accordion.accordion({
@@ -24,18 +25,23 @@ $(document).ready(function () {
     });
     $("input").checkboxradio();
     $puzzle.mousemove(function (e) {
-        var x = e.pageX - this.offsetLeft;
-        var y = e.pageY - this.offsetTop;
-        var posX = Math.floor(nx * x / 768);
-        var posY = Math.floor(ny * y / 1024);
+        var offset = $(this).parent().offset();
+        var x = e.pageX - offset.left;
+        var y = e.pageY - offset.top;
+        var width = $(this).width();
+        var height = $(this).height();
+        var posX = Math.floor(nx * x / width);
+        var posY = Math.floor(ny * y / height);
         $tooltip.css("top", e.pageY + 20);
         $tooltip.css("left", e.pageX + 10);
-        var p_index = keys[posX][posY];
-        if (p_index > index) {
+        var donor = donors[posX][posY];
+        if (donor == null) {
             $visible_piece.hide();
             $empty_piece.show();
         }
         else {
+            $name.text(donor.name);
+            $location.text(donor.country);
             $empty_piece.hide();
             $visible_piece.show();
         }
@@ -54,12 +60,23 @@ $(document).ready(function () {
     });
     if (GLRenderer.webgl_support()) {
         var renderer_1 = new GLRenderer();
+        $.getJSON("./json/donors.json", function (data) {
+            for (var i in data) {
+                renderer_1.setTiles(data);
+            }
+        });
         $puzzle.css("background-color", "#ffffff");
         var $canvas = $(renderer_1.getDom());
         $puzzle.append($canvas);
         renderer_1.animate();
         renderer_1.resize($puzzle.width(), $puzzle.width() * 915 / 733);
-        window.addEventListener('resize', function () { renderer_1.resize($puzzle.width(), $puzzle.width() * 915 / 733); }, false);
+        window.addEventListener('resize', function () {
+            var width = $puzzle.width();
+            $canvas.css("width", width);
+            $canvas.css("height", width * 915 / 733);
+            renderer_1.resize(width, width * 915 / 733);
+            renderer_1.update();
+        }, false);
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
                 renderer_1.setRad(0.05);

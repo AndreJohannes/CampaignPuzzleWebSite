@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <title>Donor Puzzle</title>
     <link rel="icon" href="./images/icon.png">
-    <link rel="stylesheet" type="text/css" href="./css/layout.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.min.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/layout.css" media="screen"/>
     <script src="./js/jquery.js"></script>
-    <script src="./js/jquery-ui.js"></script>
+    <script src="./js/jquery-ui.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/puzzle.js"></script>
+    <script src="./js/three.min.js"></script>
+    <script src="./ts/flagpuzzle.js"></script>
+    <script src="./ts/tools/quads.js"></script>
+    <script src="./ts/tools/GLRenderer.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -19,51 +23,98 @@
         </div>
         <div class="col-md-6">
             <div class="title">
-                <p>PSYDEH Donor Puzzle</p>
+                <img id="title" src="./images/title.jpg"/>
             </div>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div id="logo">
+            </div>
+        </div>
     </div>
 
     <div class="row">
         <div class="col-md-3">
-            <ul class="info">
-                <li>
-                    The donor puzzle is our way of sharing
-                    the the progress of our Crowdfunding campaign
-                    with the donor community. We turned an illustrative
-                    image from the region of the indigenous people in the
-                    Mexican state if Hidalgo into a puzzle with 2500 pieces.
-                    Each piece is worth $10usd. For each $10usd donation a
-                    new puzzle piece will be added to the image. A donation
-                    of $100usd will add 10 pieces. The full image will be visible
-                    once we have reached our goal of $25000usd.<br/>
-                    It is our desire to acknowledge each donor. Move the mouse over the image
-                    to obtain information on the donor of the corresponding piece.
-                </li>
-                <li>[Text pending]</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <div id="grid">
-                <div id="puzzle">
+            <fieldset>
+                <input type="checkbox" name="checkbox" id="checkbox">
+                <label for="checkbox" id="cb_label">GLOBAL DONORS’ FLAGS</label>
+            </fieldset>
+            <div id="accordion">
+                <h3>WHY A DONOR PUZZLE?</h3>
+                <div>
+                    <p>Here at “Fruits of Change” campaign central, we celebrate you, the global citizen donor, AND
+                        progress towards our $25,000 goal – money
+                        <a href="https://psydeh.com/2016/09/09/psydeh-uses-donations-to-fund-pivotal-actions-in-2016-2018/">
+                           we will use in these specific ways
+                        </a>
+                        to build self-reliant communities in Mexico<br/>
+                        <br/>
+                        <b>How do we use the puzzle to highlight campaign progress?</b><br/> Each of the 2500 puzzle
+                        pieces
+                        represents a $10usd donation. So, say you donate the equivalent of $100usd, we add 10 more
+                        pieces. BOOM!<br/>
+                        <br/>
+                        <b>How does the puzzle celebrate you?</b><br/> Each puzzle piece is connected to an individual
+                        donor! Scroll
+                        over the image to find out who donated, how much and from where. One click on the <b style="color: #144834">“Global
+                            Donors’ Flags”</b> button above reveals a cool visual of
+                        global
+                        citizens’ strength when united. DOUBLE BOOM!
+                    </p>
+                </div>
+                <h3>WHAT IS THE IMAGE?</h3>
+                <div>
+
+                    It’s an embroidered map of Tenango de Doria, Hidalgo, the heart of the Otomí-Tepehua region in which
+                    PSYDEH and its native women partners work.
+                    <br/><br/><b>Why an embroidered map?</b><br/>
+                    For centuries, the Region's Otomí people have practiced
+                    <a href="http://mom.maison-objet.com/en/product/4953/tenango-otomi-embroidered-cushion-cover">
+                    globally famous
+                    </a>
+                    hand-embroidery involving
+                    <a href="http://www.mexicantextiles.com/textilepatterns/tenango/index.htm">
+                        figures called “Tenangos".</a>
+                    <br/><br/>
+                    <b>Why the “Fruits of Change” campaign and Tenangos?</b><br/>
+                    We are more self-relient when we have money in our pocket.
+                    <a href="https://www.youtube.com/watch?v=VKDrX10t6Ds">
+                        PSYDEH’s multi-year program
+                    </a>
+                    understands this and reflects native women's demand to link
+                    community organizing and citizen education with
+                    <a href="https://psydeh.com/local-products-cooperative-civil-society/">
+                        economic empowerment.
+                    </a><br/>
+                    Your donation puts money in artisans' pockets in two ways:
+                    (1) you invest in an unprecedented
+                    <a href="https://psydeh.com/2016/09/09/psydeh-uses-donations-to-fund-pivotal-actions-in-2016-2018/">
+                        Regional Cooperative;</a> and (2)
+                    $500 and $1000usd donation levels include an
+                    embroidered gift and this money in native women's
+                    pockets - YOU win, "Fruits of Change" wins. WOMEN win!
+                    </p>
+
+                    </p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-9">
+            <div id="puzzle">
+            </div>
+        </div>
     </div>
 </div>
 
-<div id="tooltip">
+<div id="tooltip" style="display:none">
     <div id="visible_piece">
-        <a>This piece has been kindly donated</a><br/>
-        <a>by</a> <a id="name">xxx</a> <a>from</a><a id="location"> xxx</a><a>.</a><br/>
-        <a>The amount donated is</a><a id="amount">xxx</a><a> usd.</a>
+        <a>This puzzle piece has been donated</a><br/>
+        <a>by</a> <a id="name">xxx</a> <a>from </a><a id="location"> xxx</a><a>.</a>
     </div>
     <div id="empty_piece">
-        <a>Want to invest in this piece of land?u<br/>
-        <a>Simply double click on this spot <br/> to get to our campaign page on
-        GlobalGiving.</a>
+        <a>If you want to see this puzzle piece,</a><br/>
+            <a>double click here and make a donation on our </a> <br/>
+
+        <a>Global Giving crowdfunding page.</a>
     </div>
 </div>
 </body>

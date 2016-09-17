@@ -11,7 +11,7 @@ class GLRenderer {
     private rad = 0.0;
     private dRad = -0.05;
 
-    private state = false;
+    private tiles;
 
     constructor() {
 
@@ -51,7 +51,7 @@ class GLRenderer {
         return this.renderer.domElement;
     }
 
-    public resize(x, y){
+    public resize(x, y) {
         this.renderer.setSize(x, y);
     }
 
@@ -61,6 +61,16 @@ class GLRenderer {
 
     public setRad(value) {
         this.dRad = value;
+    }
+
+    public setTiles(tiles){
+        this.tiles = tiles;
+    }
+
+    public update(){
+        if (this.renderer != null) {
+            this.renderer.render(this.scene, this.camera);
+        }
     }
 
     private static _animate(render: GLRenderer) {
@@ -86,12 +96,13 @@ class GLRenderer {
             this.rad = rad;
             for (var j = 0; j < 40; j++) {
                 for (var i = 0; i < 30; i++) {
-                    var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i)))
-                    this.quads.flip(rad, i, j);
+                    if (this.tiles[i][39-j] != null) {
+                        var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i)))
+                        this.quads.flip(rad, i, j);
+                    }
                 }
             }
             this.renderer.render(this.scene, this.camera);
-
         }
 
     }

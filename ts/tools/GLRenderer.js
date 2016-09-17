@@ -4,7 +4,6 @@ var GLRenderer = (function () {
     function GLRenderer() {
         this.rad = 0.0;
         this.dRad = -0.05;
-        this.state = false;
         var that = this;
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(-733 / 2, 733 / 2, 915 / 2, -915 / 2); //THREE.PerspectiveCamera(90, 768 / 1024, 1, 10000);
@@ -43,6 +42,14 @@ var GLRenderer = (function () {
     GLRenderer.prototype.setRad = function (value) {
         this.dRad = value;
     };
+    GLRenderer.prototype.setTiles = function (tiles) {
+        this.tiles = tiles;
+    };
+    GLRenderer.prototype.update = function () {
+        if (this.renderer != null) {
+            this.renderer.render(this.scene, this.camera);
+        }
+    };
     GLRenderer._animate = function (render) {
         return function () {
             requestAnimationFrame(GLRenderer._animate(render));
@@ -63,8 +70,10 @@ var GLRenderer = (function () {
             this.rad = rad;
             for (var j = 0; j < 40; j++) {
                 for (var i = 0; i < 30; i++) {
-                    var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i)));
-                    this.quads.flip(rad, i, j);
+                    if (this.tiles[i][39 - j] != null) {
+                        var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i)));
+                        this.quads.flip(rad, i, j);
+                    }
                 }
             }
             this.renderer.render(this.scene, this.camera);
