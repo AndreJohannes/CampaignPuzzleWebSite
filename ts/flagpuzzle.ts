@@ -44,7 +44,7 @@ $(document).ready(function () {
         $tooltip.css("top", e.pageY + 20);
         $tooltip.css("left", e.pageX + 10);
         var donor = donors[posX][posY];
-        if (donor==null) {
+        if (donor == null) {
             $visible_piece.hide();
             $empty_piece.show()
         } else {
@@ -82,11 +82,21 @@ $(document).ready(function () {
         renderer.resize($puzzle.width(), $puzzle.width() * 915 / 733);
         window.addEventListener('resize', function () {
             var width = $puzzle.width();
-            $canvas.css("width",width);
-            $canvas.css("height",width * 915 / 733);
+            $canvas.css("width", width);
+            $canvas.css("height", width * 915 / 733);
             renderer.resize(width, width * 915 / 733);
             renderer.update();
         }, false);
+        $puzzle.resizable({
+            aspectRatio: 733/915,
+            resize: function() {
+                var width = $puzzle.width();
+                $canvas.css("width", width);
+                $canvas.css("height", width * 915 / 733);
+                renderer.resize(width, width * 915 / 733);
+                renderer.update();
+            }
+        })
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
                 renderer.setRad(0.05);

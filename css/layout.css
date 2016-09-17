@@ -42,7 +42,7 @@
 
 #puzzle {
     background-image: url(../images/puzzle.png);
-    width: 100%;
+    width: 800px;
     background-size: 100%;
     background-repeat: no-repeat;
 }
@@ -96,4 +96,12 @@ fieldset{
     font-size: 20px;
     vertical-align: middle;
     margin-bottom: 0px;
+}
+
+.sprite{
+    background-image: url(../images/sprite.png);
+    float: right;
+    margin-top: 15px;
+    margin-right:10px
+
 }

@@ -77,6 +77,16 @@ $(document).ready(function () {
             renderer_1.resize(width, width * 915 / 733);
             renderer_1.update();
         }, false);
+        $puzzle.resizable({
+            aspectRatio: 733 / 915,
+            resize: function () {
+                var width = $puzzle.width();
+                $canvas.css("width", width);
+                $canvas.css("height", width * 915 / 733);
+                renderer_1.resize(width, width * 915 / 733);
+                renderer_1.update();
+            }
+        });
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
                 renderer_1.setRad(0.05);
