@@ -42,7 +42,7 @@
 
 #puzzle {
     background-image: url(../images/puzzle.png);
-    width: 800px;
+    width: 100%;
     background-size: 100%;
     background-repeat: no-repeat;
 }
