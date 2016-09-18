@@ -4,6 +4,8 @@ $(document).ready(function () {
     var nx = 30, ny = 40;
     var $tooltip = $("#tooltip");
     var $puzzle = $("#puzzle");
+    var $handle = $("#handle");
+    var $frame = $("#frame");
     var $empty_piece = $("#empty_piece");
     var $visible_piece = $("#visible_piece");
     var $accordion = $("#accordion");
@@ -65,25 +67,29 @@ $(document).ready(function () {
                 renderer_1.setTiles(data);
             }
         });
-        $puzzle.css("background-color", "#ffffff");
+        //$puzzle.css("background-color", "#ffffff");
         var $canvas = $(renderer_1.getDom());
         $puzzle.append($canvas);
         renderer_1.animate();
-        renderer_1.resize($puzzle.width(), $puzzle.width() * 915 / 733);
+        var aspectRatio = 733 / 915.;
+        renderer_1.resize($handle.width() - 20, ($handle.width() - 20) / aspectRatio);
         window.addEventListener('resize', function () {
-            var width = $puzzle.width();
+            var width = $handle.width() - 20;
             $canvas.css("width", width);
-            $canvas.css("height", width * 915 / 733);
-            renderer_1.resize(width, width * 915 / 733);
+            $canvas.css("height", width / aspectRatio);
+            renderer_1.resize(width, width / aspectRatio);
             renderer_1.update();
         }, false);
-        $puzzle.resizable({
-            aspectRatio: 733 / 915,
+        $("#handle").resizable({
+            minHeight: 20,
+            maxHeight: 20,
             resize: function () {
-                var width = $puzzle.width();
+                var width = $handle.width() - 20;
                 $canvas.css("width", width);
-                $canvas.css("height", width * 915 / 733);
-                renderer_1.resize(width, width * 915 / 733);
+                $canvas.css("height", width / aspectRatio);
+                $puzzle.css("height", width / aspectRatio);
+                $frame.css("height", width / aspectRatio + 6);
+                renderer_1.resize(width, width / aspectRatio);
                 renderer_1.update();
             }
         });

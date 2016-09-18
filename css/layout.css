@@ -26,6 +26,7 @@
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+    z-index: 92;
 }
 
 #empty_piece{
@@ -40,12 +41,7 @@
     max-width: 500px;
 }
 
-#puzzle {
-    background-image: url(../images/puzzle.png);
-    width: 100%;
-    background-size: 100%;
-    background-repeat: no-repeat;
-}
+
 
 #grid{
     background-image: url(../images/grid.png);
@@ -103,5 +99,32 @@ fieldset{
     float: right;
     margin-top: 15px;
     margin-right:10px
-
 }
+
+#frame{
+    padding: 2px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    display: inline-block;
+    background: grey;
+    z-index: 100;
+}
+
+#handle{
+    height:  20px;
+    width: 95%;
+    background: transparent;
+    border: 1px solid grey;
+    border-radius: 5px;
+    position: absolute;
+}
+
+#puzzle {
+    background-color: black;
+    width: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 91;
+}
+
