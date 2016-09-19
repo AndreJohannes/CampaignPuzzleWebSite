@@ -30,7 +30,8 @@ $(document).ready(function () {
 
     $accordion.accordion({
         active: false,
-        collapsible: true
+        collapsible: true,
+    	heightStyle: "content"
     });
 
     $("input").checkboxradio();
@@ -109,7 +110,7 @@ $(document).ready(function () {
             } else {
                 renderer.setRad(-0.05);
             }
-        }).attr("checked", "");
+        });
     } else {
 	var $div_front = $(document.createElement('div'));
      	$div_front.addClass("puzzle_image");
@@ -151,7 +152,7 @@ $(document).ready(function () {
                 $div_back.hide();
 		$div_front.show();
             }
-        }).attr("checked", "");
+        });
     	var width = $handle.width()-20;
 	$div_front.css("width", width);
 	$div_front.css("height", width / aspectRatio);
