@@ -83,8 +83,11 @@ $(document).ready(function () {
         $puzzle.append($canvas);
         renderer.animate();
         var aspectRatio= 733/915.;
-        renderer.resize($handle.width()-20, ($handle.width()-20)/aspectRatio);
-        window.addEventListener('resize', function () {
+	var width = $handle.width()-20;
+	var height = width/aspectRatio;
+        renderer.resize(width, height);
+        $puzzle.css("height",height);
+	window.addEventListener('resize', function () {
             var width = $handle.width()-20;
             $canvas.css("width", width);
             $canvas.css("height", width / aspectRatio);
@@ -103,7 +106,7 @@ $(document).ready(function () {
                 renderer.resize(width, width / aspectRatio);
                 renderer.update();
             }
-        })
+        });
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
                 renderer.setRad(0.05);

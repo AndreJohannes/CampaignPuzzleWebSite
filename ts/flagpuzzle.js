@@ -73,7 +73,10 @@ $(document).ready(function () {
         $puzzle.append($canvas);
         renderer.animate();
         var aspectRatio = 733 / 915.;
-        renderer.resize($handle.width() - 20, ($handle.width() - 20) / aspectRatio);
+        var width = $handle.width() - 20;
+        var height = width / aspectRatio;
+        renderer.resize(width, height);
+        $puzzle.css("height", height);
         window.addEventListener('resize', function () {
             var width = $handle.width() - 20;
             $canvas.css("width", width);
