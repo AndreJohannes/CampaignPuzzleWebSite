@@ -61,5 +61,4 @@ var Quads = (function () {
         return geometry;
     };
     return Quads;
-}());
-//# sourceMappingURL=quads.js.map
+})();

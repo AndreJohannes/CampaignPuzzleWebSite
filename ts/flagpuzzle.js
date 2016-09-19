@@ -61,24 +61,24 @@ $(document).ready(function () {
         window.location.href = "https://www.globalgiving.org/projects/empower-native-women-mexico/";
     });
     if (GLRenderer.webgl_support()) {
-        var renderer_1 = new GLRenderer();
+        var renderer = new GLRenderer();
         $.getJSON("./json/donors.json", function (data) {
             for (var i in data) {
-                renderer_1.setTiles(data);
+                renderer.setTiles(data);
             }
         });
         //$puzzle.css("background-color", "#ffffff");
-        var $canvas = $(renderer_1.getDom());
+        var $canvas = $(renderer.getDom());
         $puzzle.append($canvas);
-        renderer_1.animate();
+        renderer.animate();
         var aspectRatio = 733 / 915.;
-        renderer_1.resize($handle.width() - 20, ($handle.width() - 20) / aspectRatio);
+        renderer.resize($handle.width() - 20, ($handle.width() - 20) / aspectRatio);
         window.addEventListener('resize', function () {
             var width = $handle.width() - 20;
             $canvas.css("width", width);
             $canvas.css("height", width / aspectRatio);
-            renderer_1.resize(width, width / aspectRatio);
-            renderer_1.update();
+            renderer.resize(width, width / aspectRatio);
+            renderer.update();
         }, false);
         $("#handle").resizable({
             minHeight: 20,
@@ -89,28 +89,63 @@ $(document).ready(function () {
                 $canvas.css("height", width / aspectRatio);
                 $puzzle.css("height", width / aspectRatio);
                 $frame.css("height", width / aspectRatio + 6);
-                renderer_1.resize(width, width / aspectRatio);
-                renderer_1.update();
+                renderer.resize(width, width / aspectRatio);
+                renderer.update();
             }
         });
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
-                renderer_1.setRad(0.05);
+                renderer.setRad(0.05);
             }
             else {
-                renderer_1.setRad(-0.05);
+                renderer.setRad(-0.05);
             }
         }).attr("checked", "");
     }
     else {
+        var $div_front = $(document.createElement('div'));
+        $div_front.addClass("puzzle_image");
+        $div_front.css("background-image", "url(./images/puzzle_front.png)");
+        var aspectRatio = 733 / 915;
+        $puzzle.append($div_front);
+        var $div_back = $(document.createElement('div'));
+        $div_back.addClass("puzzle_image");
+        $div_back.css("background-image", "url(./images/puzzle_back.png)");
+        var aspectRatio = 733 / 915;
+        $div_back.hide();
+        $puzzle.append($div_back);
+        var width = $handle.width() - 20;
+        $div_front.css("width", width);
+        $div_front.css("height", width / aspectRatio);
+        $div_back.css("width", width);
+        $div_back.css("height", width / aspectRatio);
+        $("#handle").resizable({
+            minHeight: 20,
+            maxHeight: 20,
+            resize: function () {
+                var width = $handle.width() - 20;
+                $div_front.css("width", width);
+                $div_front.css("height", width / aspectRatio);
+                $div_back.css("width", width);
+                $div_back.css("height", width / aspectRatio);
+                $puzzle.css("height", width / aspectRatio);
+                $frame.css("height", width / aspectRatio + 6);
+            }
+        });
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
-                $("#puzzle").css("background-image", "url(./images/puzzle_back.png)");
+                $div_front.hide();
+                $div_back.show();
             }
             else {
-                $("#puzzle").css("background-image", "url(./images/puzzle.png)");
+                $div_back.hide();
+                $div_front.show();
             }
         }).attr("checked", "");
+        var width = $handle.width() - 20;
+        $div_front.css("width", width);
+        $div_front.css("height", width / aspectRatio);
+        $div_back.css("width", width);
+        $div_back.css("height", width / aspectRatio);
     }
 });
-//# sourceMappingURL=flagpuzzle.js.map

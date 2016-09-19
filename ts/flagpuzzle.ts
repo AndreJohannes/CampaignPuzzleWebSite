@@ -111,12 +111,53 @@ $(document).ready(function () {
             }
         }).attr("checked", "");
     } else {
+	var $div_front = $(document.createElement('div'));
+     	$div_front.addClass("puzzle_image");
+	$div_front.css("background-image","url(./images/puzzle_front.png)");
+	var aspectRatio = 733/915;
+	$puzzle.append($div_front);
+	
+	var $div_back = $(document.createElement('div'));
+     	$div_back.addClass("puzzle_image");
+	$div_back.css("background-image","url(./images/puzzle_back.png)");
+		var aspectRatio = 733/915;
+	$div_back.hide();
+        $puzzle.append($div_back);
+	var width = $handle.width()-20;
+
+	$div_front.css("width", width);
+	$div_front.css("height", width / aspectRatio);
+	
+	$div_back.css("width", width);
+	$div_back.css("height", width / aspectRatio);
+	$("#handle").resizable({
+            minHeight: 20,
+            maxHeight: 20,
+            resize: function() {
+                var width = $handle.width()-20;
+                $div_front.css("width", width);
+                $div_front.css("height", width / aspectRatio);
+                $div_back.css("width", width);
+                $div_back.css("height", width / aspectRatio);
+                $puzzle.css("height", width / aspectRatio);
+                $frame.css("height", width / aspectRatio+6);
+            }
+        })
         $('#checkbox').change(function () {
             if ($(this).is(':checked')) {
-                $("#puzzle").css("background-image", "url(./images/puzzle_back.png)");
+		$div_front.hide();    
+                $div_back.show();
             } else {
-                $("#puzzle").css("background-image", "url(./images/puzzle.png)");
+                $div_back.hide();
+		$div_front.show();
             }
         }).attr("checked", "");
+    	var width = $handle.width()-20;
+	$div_front.css("width", width);
+	$div_front.css("height", width / aspectRatio);
+	
+	$div_back.css("width", width);
+	$div_back.css("height", width / aspectRatio);
+	
     }
-}
+})

@@ -128,3 +128,6 @@ fieldset{
     z-index: 91;
 }
 
+.puzzle_image{
+    background-size: contain;
+}

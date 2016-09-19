@@ -93,5 +93,4 @@ var GLRenderer = (function () {
         return retValue;
     };
     return GLRenderer;
-}());
-//# sourceMappingURL=GLRenderer.js.map
+})();
