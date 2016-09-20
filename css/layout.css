@@ -98,8 +98,13 @@ fieldset{
 .sprite{
     background-image: url(../images/sprite.png);
     float: right;
-    margin-top: 15px;
     margin-right:10px
+}
+
+.sprites{
+	margin-top: 15px;
+	float:right;
+	margin-right: 40px;
 }
 
 #frame{
