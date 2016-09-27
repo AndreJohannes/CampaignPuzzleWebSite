@@ -70,7 +70,7 @@ var GLRenderer = (function () {
             this.rad = rad;
             for (var j = 0; j < 40; j++) {
                 for (var i = 0; i < 30; i++) {
-                    if (this.tiles[i][39 - j] != null || true) {
+                    if (this.tiles[i][39 - j] != null) {
                         var rad = Math.min(Math.PI, Math.max(0, this.rad - 0.2 * (i)));
                         this.quads.flip(rad, i, j);
                     }
